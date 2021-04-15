@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_15_105747) do
+ActiveRecord::Schema.define(version: 2021_04_15_131212) do
+
+  create_table "courses", charset: "utf8", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["title"], name: "index_courses_on_title", unique: true
+  end
 
   create_table "users", charset: "utf8", force: :cascade do |t|
     t.string "email"

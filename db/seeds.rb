@@ -3,5 +3,10 @@ p '######## CREATING USERS ########'
   FactoryBot.create(:user)
 end
 
+p '######## CREATING COURSES ########'
+5.times do
+  FactoryBot.create(:course)
+end
+
 
 
