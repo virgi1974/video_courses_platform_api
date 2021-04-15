@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  has_many :registrations
+  has_many :courses, through: :registrations
+
   validates_uniqueness_of :email, :case_sensitive => true
 
   validates :email,

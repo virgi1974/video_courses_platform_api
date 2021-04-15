@@ -10,13 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_15_131212) do
+ActiveRecord::Schema.define(version: 2021_04_15_135209) do
 
   create_table "courses", charset: "utf8", force: :cascade do |t|
     t.string "title"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["title"], name: "index_courses_on_title", unique: true
+  end
+
+  create_table "registrations", charset: "utf8", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "course_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["course_id"], name: "index_registrations_on_course_id"
+    t.index ["user_id"], name: "index_registrations_on_user_id"
   end
 
   create_table "users", charset: "utf8", force: :cascade do |t|
@@ -26,4 +35,6 @@ ActiveRecord::Schema.define(version: 2021_04_15_131212) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "registrations", "courses"
+  add_foreign_key "registrations", "users"
 end

@@ -12,4 +12,9 @@ RSpec.describe User, type: :model do
   context 'db configuration' do
     it { should have_db_index(:email).unique(true) }
   end
+
+  context 'associations' do
+    it { is_expected.to have_many(:registrations) }
+    it { is_expected.to have_many(:courses) }
+  end
 end
