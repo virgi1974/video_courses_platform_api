@@ -1,0 +1,272 @@
+{
+	"info": {
+		"_postman_id": "0a67efcb-f054-4381-b577-3651fa56f944",
+		"name": "Domestika",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Registrations INDEX",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6NDV9.2pY_8zfRvCRNMSiT0K3hJvxA-2qjKrEhwslAMHD2tDs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic b21hci5tZWdkYWRpQHRoZS1jb2NrdGFpbC5jb206YWJlYmE1M2U4NzBmYWY0NDdiMmFmY2ZhMmRmYjg4NWQ0YWI5MDA3ZQ==",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "Token sasasasa",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Bear",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/api/v1/registrations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"registrations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Registration CREATE",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "JWT eyJhbGciOiJIUzI1NiJ9.eyJ0aW1lIjoiMjAxOC0wOC0xNSAyMzoyMToxMCArMDIwMCIsImF1dGhlbnRpY2F0aW9uX3Rva2VuIjoieHVlZVMyOFhNeURSODJkUTE3VDQiLCJleHAiOjE1MzU1Nzc2NzB9.kgLrdBXHDI6yVKwIcufbXd1RPsZbB-BZNXpJSuu9WIk",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"React course\",\n\t\"user_id\": 1\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/registrations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"registrations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Users  LIKE",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "JWT eyJhbGciOiJIUzI1NiJ9.eyJ0aW1lIjoiMjAxOC0wOC0xNSAyMzoyMToxMCArMDIwMCIsImF1dGhlbnRpY2F0aW9uX3Rva2VuIjoieHVlZVMyOFhNeURSODJkUTE3VDQiLCJleHAiOjE1MzU1Nzc2NzB9.kgLrdBXHDI6yVKwIcufbXd1RPsZbB-BZNXpJSuu9WIk",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"voter_id\": 3\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/users/1/like",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"1",
+						"like"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Courses LIKE",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "JWT eyJhbGciOiJIUzI1NiJ9.eyJ0aW1lIjoiMjAxOC0wOC0xNSAyMzoyMToxMCArMDIwMCIsImF1dGhlbnRpY2F0aW9uX3Rva2VuIjoieHVlZVMyOFhNeURSODJkUTE3VDQiLCJleHAiOjE1MzU1Nzc2NzB9.kgLrdBXHDI6yVKwIcufbXd1RPsZbB-BZNXpJSuu9WIk",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"voter_id\": 1\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/courses/1/like",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"courses",
+						"1",
+						"like"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Registrations INDEX paginated",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6NDV9.2pY_8zfRvCRNMSiT0K3hJvxA-2qjKrEhwslAMHD2tDs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic b21hci5tZWdkYWRpQHRoZS1jb2NrdGFpbC5jb206YWJlYmE1M2U4NzBmYWY0NDdiMmFmY2ZhMmRmYjg4NWQ0YWI5MDA3ZQ==",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "Token sasasasa",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Bear",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/api/v1/registrations?page=2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"registrations"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
