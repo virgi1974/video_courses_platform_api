@@ -1,13 +1,14 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class RegistrationsController < ApplicationController
-      
       # GET /registrations
       def index
         @total_registrations = Registration.count
         @registrations = Registration.includes(:user, :course).paginate(page: params[:page], per_page: 5)
       end
-      
+
       # POST /registrations
       def create
         service_response = RegistrationRequest.new(registration_params).call
@@ -21,12 +22,11 @@ module Api
       end
 
       private
-      
-        # Only allow a list of trusted parameters through.
-        def registration_params
-          params.permit(:title, :user_id, registration: {})
-        end
+
+      # Only allow a list of trusted parameters through.
+      def registration_params
+        params.permit(:title, :user_id, registration: {})
+      end
     end
   end
 end
-

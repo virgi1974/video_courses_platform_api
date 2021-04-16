@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.user do
   json.id registration.user.id
   json.email registration.user.email

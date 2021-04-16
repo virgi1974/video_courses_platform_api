@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 p '######## CREATING USERS ########'
 5.times do
   FactoryBot.create(:user)
@@ -15,4 +17,3 @@ User.all.each do |user|
   FactoryBot.create(:registration, user: user, course: courses[1])
   FactoryBot.create(:registration, user: user, course: courses[2])
 end
-

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Course, type: :model do
@@ -21,7 +23,7 @@ RSpec.describe Course, type: :model do
         course = create(:course)
         expect(course.likes).to eq(0)
       end
-      
+
       it 'has value equal to the number of times it was liked' do
         course = create(:course)
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class CoursesController < ApplicationController
@@ -6,21 +8,16 @@ module Api
         course = Course.find(course_params[:id])
         voter = User.find(course_params[:voter_id])
 
-        if course && voter && course.liked_by(voter)
-          head :ok
-        end
-      
+        head :ok if course && voter && course.liked_by(voter)
       rescue ActiveRecord::RecordNotFound => e
         render json: { error_message: e.message }, status: :unprocessable_entity
       end
 
       private
 
-        def course_params
-          params.permit(:id, :voter_id, course: {})
-        end
+      def course_params
+        params.permit(:id, :voter_id, course: {})
+      end
     end
   end
 end
-
-

@@ -1,18 +1,20 @@
-require "rails_helper"
+# frozen_string_literal: true
+
+require 'rails_helper'
 
 RSpec.describe RegistrationRequest, 'call' do
-  let(:user) { create(:user)}
-  let(:course) { create(:course)}
+  let(:user) { create(:user) }
+  let(:course) { create(:course) }
 
-  let(:valid_attributes) {
+  let(:valid_attributes) do
     { "title": course.title, "user_id": user.id }.with_indifferent_access
-  }
+  end
 
-  let(:invalid_attributes) {
-    { "title": course.title, "user_id": 10000 }.with_indifferent_access
-  }
+  let(:invalid_attributes) do
+    { "title": course.title, "user_id": 10_000 }.with_indifferent_access
+  end
 
-  it "has expected structure" do
+  it 'has expected structure' do
     service_response = RegistrationRequest.new(valid_attributes).call
     expect(service_response.class).to be RegistrationStruct
     expect(service_response.size).to eq 2
@@ -20,16 +22,16 @@ RSpec.describe RegistrationRequest, 'call' do
     expect(service_response.members.include?(:error_message)).to be true
   end
 
-  context "success case" do
-    it "has expected content" do
+  context 'success case' do
+    it 'has expected content' do
       service_response = RegistrationRequest.new(invalid_attributes).call
       expect(service_response.registration).to be nil
       expect(service_response.error_message).to_not be nil
     end
   end
 
-  context "success case" do
-    it "has expected content" do
+  context 'success case' do
+    it 'has expected content' do
       service_response = RegistrationRequest.new(valid_attributes).call
       expect(service_response.registration.class).to be Registration
       expect(service_response.registration.user_id).to eq user.id
