@@ -1,4 +1,6 @@
 class Course < ApplicationRecord
+  include Like
+
   has_many :registrations
   has_many :users, through: :registrations
 
@@ -6,8 +8,4 @@ class Course < ApplicationRecord
   validates_presence_of :title
 
   acts_as_votable
-
-  def likes
-    get_likes.size
-  end
 end

@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include Like
+
   has_many :registrations
   has_many :courses, through: :registrations
 
@@ -9,8 +11,4 @@ class User < ApplicationRecord
              presence: true
           
   acts_as_votable
-
-  def likes
-    get_likes.size
-  end
 end
