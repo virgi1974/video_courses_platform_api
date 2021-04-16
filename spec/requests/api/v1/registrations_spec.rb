@@ -1,6 +1,27 @@
 require 'rails_helper'
 
 RSpec.describe "/api/v1/registrations", type: :request do
+  let(:user) { create(:user)}
+  let(:course) { create(:course)}
+
+  let(:valid_attributes_new_course) {
+    { "title": "React latest version", "user_id": user.id }
+  }
+  let(:valid_attributes_existing_course) {
+    { "title": course.title, "user_id": user.id }
+  }
+  let(:invalid_title_attr) {
+    { "title": "", "user_id": 10000 }
+  }
+  let(:invalid_user_id_attr) {
+    { "title": "some cool course", "user_id": 10000 }
+  }
+  let(:invalid_missing_title_attr) {
+    { "user_id": 1 }
+  }
+  let(:invalid_missing_user_id_attr) {
+    { "title": "some cool course" }
+  }
   let!(:headers) do
     { 'ACCEPT' => 'application/json' }
   end
@@ -94,6 +115,118 @@ RSpec.describe "/api/v1/registrations", type: :request do
           course_keys.each do |key|
             expect(course[key]).to eq(registration.course.send(key))
           end
+        end
+      end
+    end
+  end
+
+  describe "POST /create" do
+    context "with valid parameters" do
+      context "creating new course" do
+        it "uses title from an existing course" do
+          existing_course_before_post = Course.find_by(title: valid_attributes_new_course[:title])
+          expect(existing_course_before_post).to be nil
+          post api_v1_registrations_url, params: valid_attributes_new_course, headers: headers, as: :json
+          existing_course_after_post = Course.find_by(title: valid_attributes_new_course[:title])
+          expect(existing_course_after_post).to_not be nil
+        end
+
+        it "creates a new Registration" do
+          expect {
+            post api_v1_registrations_url, 
+            params: valid_attributes_new_course, 
+            headers: headers, 
+            as: :json
+          }.to change(Registration, :count).by(1)
+        end
+        
+        it "renders a successful response" do
+          post api_v1_registrations_url, params: valid_attributes_new_course, headers: headers, as: :json
+          expect(response).to have_http_status(:created)
+          expect(response.content_type).to match(a_string_including("application/json"))
+        end
+      end
+
+      context "using existing course" do
+        it "fails if related Registration already exists" do
+          existing_user = User.find(valid_attributes_existing_course[:user_id])
+          existing_course = Course.find_by(title: valid_attributes_existing_course[:title])
+          created_registration = Registration.create(user: existing_user, course: existing_course)
+
+          expect {
+            post api_v1_registrations_url, 
+            params: valid_attributes_existing_course, 
+            headers: headers, 
+            as: :json
+          }.to change(Registration, :count).by(0)
+          expect(parsed_response.key?("error_message")).to be true
+          expect(parsed_response["error_message"]).to eq("you already have applied for that course")
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it "succeeds if related Registration does not exists" do
+          existing_user = User.find(valid_attributes_existing_course[:user_id])
+          existing_course = Course.find_by(title: valid_attributes_existing_course[:title])
+          existing_registration = Registration.find_by(user: existing_user.id, course: existing_course.id)
+          expect(existing_registration).to be nil
+          expect {
+            post api_v1_registrations_url, 
+            params: valid_attributes_existing_course, 
+            headers: headers, 
+            as: :json
+          }.to change(Registration, :count).by(1)
+        end
+      end
+    end
+
+    context "with invalid parameters" do
+      context "does not create a new Registration" do
+        it "when empty title" do
+          expect {
+            post api_v1_registrations_url, 
+            params: invalid_title_attr, 
+            headers: headers, 
+            as: :json
+          }.to change(Registration, :count).by(0)
+          expect(parsed_response.key?("error_message")).to be true
+          expect(parsed_response["error_message"]).to eq("Validation failed: Title can't be blank")
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it "when non existing user" do
+          expect {
+            post api_v1_registrations_url, 
+            params: invalid_user_id_attr, 
+            headers: headers, 
+            as: :json
+          }.to change(Registration, :count).by(0)
+          expect(parsed_response.key?("error_message")).to be true
+          expect(parsed_response["error_message"]).to eq("Couldn't find User with 'id'=10000")
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it "when missing title" do
+          expect {
+            post api_v1_registrations_url, 
+            params: invalid_missing_title_attr, 
+            headers: headers, 
+            as: :json
+          }.to change(Registration, :count).by(0)
+          expect(parsed_response.key?("error_message")).to be true
+          expect(parsed_response["error_message"]).to eq("Validation failed: Title can't be blank")
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it "when missing user id" do
+          expect {
+            post api_v1_registrations_url, 
+            params: invalid_missing_user_id_attr, 
+            headers: headers, 
+            as: :json
+          }.to change(Registration, :count).by(0)
+          expect(parsed_response.key?("error_message")).to be true
+          expect(parsed_response["error_message"]).to eq("Couldn't find User without an ID")
+          expect(response).to have_http_status(:unprocessable_entity)
         end
       end
     end
