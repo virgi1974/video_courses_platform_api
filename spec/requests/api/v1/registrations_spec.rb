@@ -41,10 +41,14 @@ RSpec.describe "/api/v1/registrations", type: :request do
 
         it 'has expected structure' do
           expect(parsed_response).not_to be_empty
-          expect(parsed_response).to eq({"registrations"=>[]})
-          expect(parsed_response.keys.size).to eq(1)
-  
-          expected_response_keys = %w[registrations]
+          basic_response = {"page"=>1,
+                            "registrations"=>[],
+                            "results_per_page"=>5,
+                            "total_registrations"=>0}
+          expect(parsed_response).to eq(basic_response)
+          expect(parsed_response.keys.size).to eq(4)
+
+          expected_response_keys = %w[registrations total_registrations page results_per_page]
           expected_response_keys.each do |key|
             expect(parsed_response.keys).to include(key)
           end

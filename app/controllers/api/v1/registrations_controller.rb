@@ -4,7 +4,8 @@ module Api
       
       # GET /registrations
       def index
-        @registrations = Registration.includes(:user, :course).all
+        @total_registrations = Registration.count
+        @registrations = Registration.includes(:user, :course).paginate(page: params[:page], per_page: 5)
       end
       
       # POST /registrations
