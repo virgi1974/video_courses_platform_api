@@ -6,4 +6,8 @@ class Course < ApplicationRecord
   validates_presence_of :title
 
   acts_as_votable
+
+  def likes
+    get_likes.size
+  end
 end

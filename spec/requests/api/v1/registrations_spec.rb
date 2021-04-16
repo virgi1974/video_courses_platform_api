@@ -104,14 +104,14 @@ RSpec.describe "/api/v1/registrations", type: :request do
           
           # user data
           user = parsed_response["registrations"][0]["user"]
-          user_keys = %w[id email]
+          user_keys = %w[id email likes]
           user_keys.each do |key|
             expect(user[key]).to eq(registration.user.send(key))
           end         
           
           # course data
           course = parsed_response["registrations"][0]["course"]
-          course_keys = %w[id title]
+          course_keys = %w[id title likes]
           course_keys.each do |key|
             expect(course[key]).to eq(registration.course.send(key))
           end
