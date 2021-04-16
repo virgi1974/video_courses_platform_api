@@ -10,23 +10,14 @@ module Api
       
       # POST /registrations
       def create
-        course = Course.find_or_create_by!(title: registration_params["title"])
-        user = User.find(registration_params["user_id"])
+        service_response = RegistrationRequest.new(registration_params).call
+        @registration = service_response.registration || service_response
 
-        existing_registration = Registration.find_by(user_id: user.id, course_id: course.id)
-        if existing_registration
-          raise Registration::AlreadyCreatedError.new("you already have applied for that course")
-        end
-
-        @registration = Registration.new(user: user, course: course)
-        if @registration.save
+        if service_response.registration
           render status: :created
         else
-          raise Registration::CreationError.new("Error creating a new registration") 
+          render json: { error_message: @registration.error_message }, status: :unprocessable_entity
         end
-      
-      rescue => e
-        render json: { error_message: e.message }, status: :unprocessable_entity
       end
 
       private
