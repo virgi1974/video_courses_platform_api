@@ -3,7 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe '/api/v1/registrations', type: :request do
-  let(:user) { create(:user) }
+  let(:user) { create(:user, role: 1) }
+  let!(:user_user) { create(:user, role: 0) }
   let(:course) { create(:course) }
 
   let(:valid_attributes_new_course) do
@@ -12,14 +13,17 @@ RSpec.describe '/api/v1/registrations', type: :request do
   let(:valid_attributes_existing_course) do
     { "title": course.title, "user_id": user.id }
   end
+  let(:valid_attributes_role_user) do
+    { "title": 'React latest version', "user_id": user_user.id }
+  end
   let(:invalid_title_attr) do
-    { "title": '', "user_id": 10_000 }
+    { "title": '', "user_id": user.id }
   end
   let(:invalid_user_id_attr) do
     { "title": 'some cool course', "user_id": 10_000 }
   end
   let(:invalid_missing_title_attr) do
-    { "user_id": 1 }
+    { "user_id": user.id }
   end
   let(:invalid_missing_user_id_attr) do
     { "title": 'some cool course' }
@@ -135,6 +139,23 @@ RSpec.describe '/api/v1/registrations', type: :request do
           post api_v1_registrations_url, params: valid_attributes_new_course, headers: headers, as: :json
           existing_course_after_post = Course.find_by(title: valid_attributes_new_course[:title])
           expect(existing_course_after_post).to_not be nil
+          expect(User.find(valid_attributes_new_course[:user_id]).teacher?).to be true
+        end
+
+        it 'action allowed when user has teacher role' do
+          post api_v1_registrations_url, params: valid_attributes_new_course, headers: headers, as: :json
+          existing_course_after_post = Course.find_by(title: valid_attributes_new_course[:title])
+          expect(existing_course_after_post).to_not be nil
+          expect(Registration.count).to eq 1
+          expect(User.find(valid_attributes_new_course[:user_id]).teacher?).to be true
+        end
+
+        it 'action not allowed when user has user role' do
+          post api_v1_registrations_url, params: valid_attributes_role_user, headers: headers, as: :json
+          existing_course_after_post = Course.find_by(title: valid_attributes_role_user[:title])
+          expect(existing_course_after_post).to be nil
+          expect(Registration.count).to eq 0
+          expect(User.find(valid_attributes_role_user[:user_id]).teacher?).to be false
         end
 
         it 'creates a new Registration' do

@@ -8,6 +8,8 @@ RSpec.describe User, type: :model do
     it { is_expected.to validate_uniqueness_of(:email) }
     it { should allow_value('email@addresse.foo').for(:email) }
     it { should_not allow_value('foo').for(:email) }
+    it { is_expected.to validate_presence_of(:role) }
+    it { is_expected.to allow_values(:user, :teacher).for(:role) }
   end
 
   context 'db configuration' do

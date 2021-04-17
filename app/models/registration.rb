@@ -3,7 +3,10 @@
 class Registration < ApplicationRecord
   class AlreadyCreatedError < StandardError; end
 
+  class NotAllowedError < StandardError; end
+
   class CreationError < StandardError; end
+
   belongs_to :user
   belongs_to :course
 end
