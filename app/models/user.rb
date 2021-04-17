@@ -12,5 +12,8 @@ class User < ApplicationRecord
             format: { with: URI::MailTo::EMAIL_REGEXP },
             presence: true
 
+  enum role: %i[user teacher]
+  validates :role, presence: true
+
   acts_as_votable
 end

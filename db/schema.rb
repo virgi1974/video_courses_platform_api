@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_210_416_124_411) do
+ActiveRecord::Schema.define(version: 20_210_417_053_917) do
   create_table 'courses', charset: 'utf8', force: :cascade do |t|
     t.string 'title'
     t.datetime 'created_at', precision: 6, null: false
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20_210_416_124_411) do
     t.string 'email'
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
+    t.integer 'role', default: 0
     t.index ['email'], name: 'index_users_on_email', unique: true
   end
 
